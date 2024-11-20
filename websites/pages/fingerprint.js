@@ -1,14 +1,7 @@
-import FingerprintJS from "@fingerprintjs/fingerprintjs";
 import { useEffect } from "react";
-
+import { getFingerprint } from "../utils/fingerprint";
 import { db } from "../db/firebase";
 import { doc, setDoc } from "firebase/firestore";
-
-export const getFingerprint = async () => {
-    const fp = await FingerprintJS.load();
-    const result = await fp.get();
-    return result.visitorId; // This is the unique fingerprint for the visitor
-};
 
 export async function getServerSideProps({ req }) {
     const forwarded = req.headers["x-forwarded-for"];
