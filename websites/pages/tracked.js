@@ -9,6 +9,7 @@ export default function Tracked({ cookie }) {
     // const cookie = cookieStore.set("userID", "1234");
     const [localStorageFound, setLocalStorageFound] = useState("False");
     const [fingerprint, setFingerprint] = useState();
+    const [whoisData, setWhoisData] = useState();
 
     useEffect(() => {
         if (localStorage.getItem("userID")) {
@@ -30,6 +31,16 @@ export default function Tracked({ cookie }) {
             const data = JSON.stringify(docSnap.data());
             console.log("Document data as a string:", data);
             setFingerprint(data);
+
+            // Get the IP address from the document
+            const ip = docSnap.data().userInfo.ip;
+            console.log("IP Address:", ip);
+
+            // Get the WHOIS data for the IP address from the API
+            const response = await fetch(`/api/whois?ip=${ip}`);
+            const whois = await response.json();
+            console.log("WHOIS data:", whois);
+            setWhoisData(JSON.stringify(whois));
         } else {
             console.log("No such document!");
         }
@@ -41,6 +52,7 @@ export default function Tracked({ cookie }) {
             <div>Cookies found: {cookie}</div>
             <div>Local storage found: {localStorageFound}</div>
             <div>Decide fingerprint found: {fingerprint}</div>
+            <div>WHOIS data: {whoisData}</div>
         </>
     );
 }
@@ -51,5 +63,6 @@ export const getServerSideProps = async (context) => {
     if (tracking === "true") {
         return { props: { cookie: "True" } };
     }
+
     return { props: { cookie: "False" } };
 };
