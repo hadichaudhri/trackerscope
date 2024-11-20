@@ -55,17 +55,18 @@ export default function Tracked({ cookie }) {
     }
 
     return (
-        <>
-            <h1>Am I being tracked?</h1>
-            <br></br>
+        <div className="p-4">
+            <h1 className="text-xl font-bold">Am I being tracked?</h1>
             <div>Cookies found: {cookie}</div>
             <br></br>
             <div>Local storage found: {localStorageFound}</div>
             <br></br>
-            <div>Decide fingerprint found: {fingerprint}</div>
-            <br></br>
-            <div>WHOIS data: {whoisData}</div>
-        </>
+            <div>Device fingerprint found: {fingerprint}</div>
+            <div>
+                <h2 className="mt-4 font-medium">WHOIS data:</h2>
+                {whoisData}
+            </div>
+        </div>
     );
 }
 
