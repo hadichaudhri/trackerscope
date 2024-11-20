@@ -24,7 +24,7 @@ export default function Tracked({ cookie }) {
         console.log("Device Fingerprint:", fingerprint);
         const docRef = doc(db, "fingerprints", fingerprint);
         const docSnap = await getDoc(docRef);
-        if (docSnap.exists()) {
+        if (docSnap.exists() && whoisData === undefined) {
             console.log("Document data:", docSnap.data());
 
             // Convert the data to a string
@@ -40,7 +40,14 @@ export default function Tracked({ cookie }) {
             const response = await fetch(`/api/whois?ip=${ip}`);
             const whois = await response.json();
             console.log("WHOIS data:", whois);
-            setWhoisData(JSON.stringify(whois));
+
+            // Construct a div for each key-value pair in the WHOIS data
+            const divs = Object.entries(whois).map(([key, value]) => (
+                <div key={key}>
+                    <strong>{key}:</strong> {value}
+                </div>
+            ));
+            setWhoisData(divs);
         } else {
             console.log("No such document!");
         }
@@ -49,9 +56,13 @@ export default function Tracked({ cookie }) {
     return (
         <>
             <h1>Am I being tracked?</h1>
+            <br></br>
             <div>Cookies found: {cookie}</div>
+            <br></br>
             <div>Local storage found: {localStorageFound}</div>
+            <br></br>
             <div>Decide fingerprint found: {fingerprint}</div>
+            <br></br>
             <div>WHOIS data: {whoisData}</div>
         </>
     );
