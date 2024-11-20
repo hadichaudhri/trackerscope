@@ -7,6 +7,14 @@ export default async (req, res) => {
 
     // Get the WHOIS data for the IP address
     whois.whois(ip, function (err, data) {
+        if (err) {
+            console.error(err);
+            res.status(500).json({
+                error: "Internal Server Error",
+                details: err.message,
+            });
+            return;
+        }
         console.log(JSON.stringify(data));
         res.status(200).json(data);
     });
