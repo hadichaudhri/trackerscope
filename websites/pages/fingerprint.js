@@ -33,6 +33,13 @@ export default function Fingerprint({ ip }) {
                 ip,
             };
 
+            // Replace all undefined values with null
+            Object.keys(userInfo).forEach((key) => {
+                if (userInfo[key] === undefined) {
+                    userInfo[key] = null;
+                }
+            });
+
             console.log("User Info:", userInfo);
 
             try {
