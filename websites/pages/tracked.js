@@ -38,6 +38,13 @@ export default function Tracked({ cookie }) {
 
             // Get the WHOIS data for the IP address from the API
             const response = await fetch(`/api/whois?ip=${ip}`);
+            if (response.status !== 200) {
+                console.error(
+                    "Failed to fetch WHOIS data:",
+                    response.statusText
+                );
+                return;
+            }
             const whois = await response.json();
             console.log("WHOIS data:", whois);
 
