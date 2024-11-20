@@ -6,9 +6,8 @@ export default async (req, res) => {
     console.log("IP Address:", ip);
 
     // Get the WHOIS data for the IP address
-    const data = await whois.whois(ip, function (err, data) {
+    whois.whois(ip, function (err, data) {
         console.log(JSON.stringify(data));
+        res.status(200).json(data);
     });
-
-    res.status(200).json({ data });
 };
