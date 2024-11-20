@@ -27,10 +27,18 @@ export default function Tracked({ cookie }) {
         if (docSnap.exists() && whoisData === undefined) {
             console.log("Document data:", docSnap.data());
 
-            // Convert the data to a string
-            const data = JSON.stringify(docSnap.data());
-            console.log("Document data as a string:", data);
-            setFingerprint(data);
+            // Update data with the human-readable timestamp
+            const data = docSnap.data().userInfo;
+            data.timestamp = data.timestamp.toDate().toString();
+
+            // For each key value pair make divs
+            const timestampdivs = Object.entries(data).map(([key, value]) => (
+                <div key={key}>
+                    <strong>{key}:</strong> {value}
+                </div>
+            ));
+
+            setFingerprint(timestampdivs);
 
             // Get the IP address from the document
             const ip = docSnap.data().userInfo.ip;

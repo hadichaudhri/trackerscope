@@ -24,13 +24,25 @@ export default function Fingerprint({ ip }) {
             const docRef = doc(db, "fingerprints", fingerprint);
 
             const userInfo = {
-                timestmap: new Date(),
+                timestamp: new Date(),
                 userAgent: navigator.userAgent,
                 os: navigator.platform,
                 screenSize: `${window.screen.width}x${window.screen.height}`,
-                hardware: navigator.hardwareConcurrency,
-                deviceModel: navigator.deviceMemory,
+                hardwareConcurrency: navigator.hardwareConcurrency || "N/A",
+                deviceMemory: navigator.deviceMemory || "N/A",
+                colorDepth: window.screen.colorDepth,
+                language: navigator.language,
+                timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+                online: navigator.onLine,
+                touchSupport: "ontouchstart" in window,
+                referrer: document.referrer || "Direct",
                 ip,
+                cookiesEnabled: navigator.cookieEnabled,
+                localStorage: typeof window.localStorage !== "undefined",
+                sessionStorage: typeof window.sessionStorage !== "undefined",
+                browserName: navigator.appName,
+                browserVersion: navigator.appVersion,
+                doNotTrack: navigator.doNotTrack || "unspecified",
             };
 
             // Replace all undefined values with null
