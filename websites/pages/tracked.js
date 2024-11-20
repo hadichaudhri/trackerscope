@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
 
+import { db } from "../db/firebase";
+import { doc, getDoc } from "firebase/firestore";
+
 export default function Tracked({ cookie }) {
     // // Store a cookie on the user's computer
     // const cookieStore = await cookies();
